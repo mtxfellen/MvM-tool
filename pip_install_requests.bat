@@ -1,0 +1,3 @@
+@echo off
+title Running: 'pip install requests'...
+pip install requests
