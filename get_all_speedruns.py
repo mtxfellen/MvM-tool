@@ -62,7 +62,10 @@ for i in range(len(map_list)):
     print("Getting times for " + map_list[i]["niceMapName"] + "...")
     workingMap_Speedrun = mvm.net_request(selected_tour_url + 'api/speedrun?map=' + map_list[i]["name"],'json')
     workingMap_Missions = sorted(set(j["mission"] for j in workingMap_Speedrun))
-    writingList.append(map_list[i]["niceMapName"] + " (" + str(len(workingMap_Missions)) + " missions)")
+    if len(workingMap_Missions) == 1:
+        writingList.append(map_list[i]["niceMapName"] + " (" + str(len(workingMap_Missions)) + " mission)")
+    else:  
+        writingList.append(map_list[i]["niceMapName"] + " (" + str(len(workingMap_Missions)) + " missions)")
     
     # CREATE LIST OF LISTS OF DICTS OF SPEEDRUNS
     workingMap_SpeedrunSplit = [[] for j in range(len(workingMap_Missions))]
@@ -108,10 +111,12 @@ for i in range(len(map_list)):
                     currentRunLine = currentRunLine + playersCurrentRunLine
                 writingList.append(currentRunLine[:-2])
         writingList.append("")
-writingList.append("== Stats ==\n\nMaps: " + str(len(map_list)) + "\nMissions: " + str(len(mission_list)) + "\n\nTop 10 runners (by most #1s):")
-firstPlaceRunners = Counter(firstPlaceRunners).most_common(10)
-# this will technically break if you run it on a *very* unpopulated speedrun ladder
-for i in range(10):
+iterLength = 10
+if len(firstPlaceRunners) < 10:
+    iterLength = len(firstPlaceRunners)
+firstPlaceRunners = Counter(firstPlaceRunners).most_common(iterLength)
+writingList.append("== Stats ==\n\nMaps: " + str(len(map_list)) + "\nMissions: " + str(len(mission_list)) + "\n\nTop " + str(iterLength) + " runners (by most #1s):")
+for i in range(iterLength):
     writingList.append("  " + str(firstPlaceRunners[i][0]) + ": " + str(firstPlaceRunners[i][1]))
 writingList.append("")
 
