@@ -118,6 +118,21 @@ def multi_format_time(listOfSeconds):
         seconds = timedelta(seconds=seconds)
     return listOfSeconds
 
-# textwrap is unreliable
+# textwrap proved a little unreliable
 def shorten_string(string, limit):
     return string[:limit-3] + (string[limit-3:], '...')[len(string) > limit]
+
+# differentiates the nice names of different oxidize versions
+# iterates through list backwards (o is closer to z) and continues if two corrections have occurred
+def fix_oxidize(map_list):
+    twoReplacements = 0
+    for i in range(len(map_list)-1,0,-1):
+        if map_list[i]["fullName"] == 'mvm_oxidize_rr18':
+            map_list[i]["niceMapName"] = 'Oxidize RR18'
+            twoReplacements += 1
+        elif map_list[i]["fullName"] == 'mvm_oxidize_rc3':
+            map_list[i]["niceMapName"] = 'Oxidize RC3'
+            twoReplacements += 1
+        if twoReplacements == 2:
+            break
+    return map_list

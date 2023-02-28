@@ -6,8 +6,8 @@ from collections import Counter
 
 # == BEGIN ==
 # LOOK FOR ACTIVE CAMPAIGN
-print("Accessing https://potato.tf/...")
 selected_tour_url = 'https://potato.tf/'
+print("Looking for active campaign from " + selected_tour_url + "...")
 activeTours = mvm.get_active_tours(selected_tour_url) # perhaps there's an api request to do this properly
 selected_tour = activeTours[0]
 
@@ -29,22 +29,9 @@ if len(activeTours) == 2:
 
 # GET MISSION AND MAPS
 # stored as list of dicts
-map_list = mvm.net_request(selected_tour_url + "api/mapinfo",'json')
+print("Getting missions for " + selected_tour + "...")
+map_list = mvm.fix_oxidize(mvm.net_request(selected_tour_url + "api/mapinfo",'json'))
 mission_list = mvm.net_request(selected_tour_url + "api/missioninfo",'json')
-
-# DIFFERENTIATE OXIDIZE VERSIONS
-# iterates through list backwards (o is closer to z) and continues if both versions have been corrected
-twoReplacements = 0
-for i in range(len(map_list)-1,0,-1):
-    if map_list[i]["fullName"] == 'mvm_oxidize_rr18':
-        map_list[i]["niceMapName"] = 'Oxidize RR18'
-        twoReplacements += 1
-    elif map_list[i]["fullName"] == 'mvm_oxidize_rc3':
-        map_list[i]["niceMapName"] = 'Oxidize RC3'
-        twoReplacements += 1
-    if twoReplacements == 2:
-        break
-del twoReplacements
 
 # GENERATE FILE NAME AND HEADER
 get_start_time = datetime.now(timezone.utc)
