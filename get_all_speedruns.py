@@ -86,7 +86,7 @@ for i in range(len(map_list)):
             # check if hours in any runs, chop leading 0 otherwise
             # todo: see mvm_main.py
             for k in range(entryDisplays):
-                currentRunLine = "\t  " + str(timedelta(seconds=int(workingMap_SpeedrunSplit[j][k]["time"])))[2:] + " | " + datetime.utcfromtimestamp(workingMap_SpeedrunSplit[j][k]["timeAdded"]).strftime('%d-%m-%Y') + " | "
+                currentRunLine = "\t  " + str(timedelta(seconds=int(workingMap_SpeedrunSplit[j][k]["time"])))[2:] + " | " + datetime.utcfromtimestamp(workingMap_SpeedrunSplit[j][k]["timeAdded"]).strftime('%d/%m/%Y') + " | "
                 playersCurrentRunLine = ""
                 for l in range(len(workingMap_SpeedrunSplit[j][k]["players"])):
                     if k == 0:
