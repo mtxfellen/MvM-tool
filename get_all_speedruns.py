@@ -98,8 +98,8 @@ for i in range(len(map_list)):
                     currentRunLine = currentRunLine + playersCurrentRunLine
                 writingList.append(currentRunLine[:-2])
         writingList.append("")
-iterLength = 10
-if len(firstPlaceRunners) < 10:
+iterLength = 20
+if len(firstPlaceRunners) < 20:
     iterLength = len(firstPlaceRunners)
 firstPlaceRunners = Counter(firstPlaceRunners).most_common(iterLength)
 writingList.append("== Stats ==\n\nMaps: " + str(len(map_list)) + "\nMissions: " + str(len(mission_list)) + "\n\nTop " + str(iterLength) + " runners (by most #1s):")
