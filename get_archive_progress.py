@@ -17,7 +17,7 @@ for player in players:
     print("Getting completion information for '" + player["personaname"] + "'...")
     currentPlayer = net_request('https://archive.potato.tf/api/waveprogress?steamid=' + player["steamid"],'json')
     writingList.append([player["personaname"] + ": \t" + str(currentPlayer["completedMissions"]) + "/" + str(missionCount) + "\nhttps://archive.potato.tf/progress/" + player["steamid"],currentPlayer["completedMissions"]])
-writingList = sorted(writingList,key=lambda x:int(x[1]),reverse=True)
+writingList = sorted(writingList,key=lambda x:(str(x[0]),int(x[1])),reverse=True)
 writingList = [i[0] for i in writingList]
 
 # SAVE RESULT
