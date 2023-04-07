@@ -3,6 +3,8 @@ import mvm_main as mvm
 from datetime import datetime, timezone, timedelta
 from os import path, makedirs
 from collections import Counter
+from requests import patch
+from json import dumps, load
 
 # == BEGIN ==
 # LOOK FOR ACTIVE CAMPAIGN
@@ -110,8 +112,23 @@ writingList.append("")
 # SAVE RESULT
 if not path.exists('./output/'):
     makedirs('./output/')
+fileContent = '\n'.join(writingList)
 with open('./output/' + fileSaveName, mode='wt', encoding='utf-8') as outputFile:
-    outputFile.write('\n'.join(writingList))
+    outputFile.write(fileContent)
 print("All speedruns saved to \"" + path.abspath('./output/' + fileSaveName) + "\".")
+
+# IMPORT GITHUB API SETTINGS
+if path.isfile('./github-access.json'):
+    with open('github-access.json') as github_access:
+        github_settings = load(github_access)
+    github_token = str(github_settings['github_token'])
+    gist_id = str(github_settings['gist_id'])
+    upload_name = str(github_settings['upload_name'])
+    
+    # UPLOAD GIST TO GITHUB
+    # todo: deal properly with response codes (see: https://do-cs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#update-a-gist)
+    if github_token != 'GITHUB_TOKEN' and gist_id != 'GIST_ID':
+        github_headers = {'Authorization': 'Bearer ' + github_token,'Accept':'application/vnd.github+json'}
+        patch('https://api.github.com/gists/' + gist_id, data=dumps({'files':{upload_name:{"content":fileContent}}}),headers=github_headers)
 
 # == END ==
