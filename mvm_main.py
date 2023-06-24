@@ -13,8 +13,10 @@ def net_request(url,jsonOrText=None):
         except requests.exceptions.TooManyRedirects:
             raise SystemExit("Requests Error: Bad URL.")
         except requests.exceptions.HTTPError as err:
-            err = "Requests Error: Client returned '" + str(err) + "'."
-            raise SystemExit(err)
+            #err = "Requests Error: Client returned '" + str(err) + "'."
+            #raise SystemExit(err)
+            print("Requests Error: Client returned'", str(err), "'. Press RETURN to retry.")
+            input()
         except requests.exceptions.Timeout:
             print("Requests Error: Request timed out. Press RETURN to retry.")
             input()
