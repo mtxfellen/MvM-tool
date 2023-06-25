@@ -48,7 +48,6 @@ firstPlaceRunners = []
 sleep(max(0,1.2 - (datetime.now().timestamp() - timeStart)))
 
 # ITERATE THROUGH MAPS
-# todo: add delay for api rate limit, assuming 100 req/min for now
 for i in range(len(map_list)):
     print("Getting times for " + map_list[i]["niceMapName"] + "...")
     timeStart = datetime.now().timestamp()
@@ -69,7 +68,7 @@ for i in range(len(map_list)):
     # ITERATE THROUGH MISSIONS ON MAP
     for j in range(len(workingMap_Missions)):
         # todo: review; i'm pretty sure this isn't necessary but i was too occupied with getting
-        # a functional program first to go back and simplify it
+        # a functional program first to simplify it at the time
         lastRun = 0
         for k in range(lastRun,len(mission_list)):
             if workingMap_Missions[j] == mission_list[k]["mission"]:
@@ -83,6 +82,7 @@ for i in range(len(map_list)):
         writingList.append(workingMission_InfoString)
         # check if there are at least 3 entries and iterate through whichever is smaller
         entryDisplays = 3
+        # todo: at a glance this looks like it might not do whatever i originally intended it to do
         if len(workingMap_SpeedrunSplit[j]) < entryDisplays:
             entryDisplays = len(workingMap_SpeedrunSplit[j])
         elif entryDisplays == 0:
@@ -134,6 +134,7 @@ if path.isfile('./github-access.json'):
     # UPLOAD GIST TO GITHUB
     # todo: deal properly with response codes (see: https://do-cs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#update-a-gist)
     if github_token != 'GITHUB_TOKEN' and gist_id != 'GIST_ID':
+        print("Revising Github gist...")
         github_headers = {'Authorization': 'Bearer ' + github_token,'Accept':'application/vnd.github+json'}
         patch('https://api.github.com/gists/' + gist_id, data=dumps({'files':{upload_name:{"content":fileContent}}}),headers=github_headers)
 
