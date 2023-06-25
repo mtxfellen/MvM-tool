@@ -98,6 +98,7 @@ for i in range(len(map_list)):
                     currentRunLine = currentRunLine + "(BUGGED) " + playersCurrentRunLine
                 else:
                     currentRunLine = currentRunLine + playersCurrentRunLine
+                currentRunLine = mvm.rem_bidir(currentRunLine)
                 writingList.append(currentRunLine[:-2])
         writingList.append("")
 iterLength = 20

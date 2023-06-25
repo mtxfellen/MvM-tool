@@ -138,3 +138,19 @@ def fix_oxidize(map_list):
         if twoReplacements == 2:
             break
     return map_list
+
+# function removes bidirectional control characters
+def rem_bidir(istring):
+    istring = istring.replace('\u061C','')\
+              .replace('\u200E','')\
+              .replace('\u200F','')\
+              .replace('\u202A','')\
+              .replace('\u202B','')\
+              .replace('\u202C','')\
+              .replace('\u202D','')\
+              .replace('\u202E','')\
+              .replace('\u2066','')\
+              .replace('\u2067','')\
+              .replace('\u2068','')\
+              .replace('\u2069','')
+    return istring
