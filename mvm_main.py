@@ -1,6 +1,7 @@
 import requests # pip install requests
+from time import sleep
 from random import randint
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 # function does requests.get.text on url with basic error-handling
 def net_request(url,jsonOrText=None):
@@ -15,7 +16,7 @@ def net_request(url,jsonOrText=None):
         except requests.exceptions.HTTPError as err:
             #err = "Requests Error: Client returned '" + str(err) + "'."
             #raise SystemExit(err)
-            print("Requests Error: Client returned'", str(err), "'. Press RETURN to retry.")
+            print("Requests Error: Client returned '" + str(err) + "'.\nPress RETURN to retry.")
             input()
         except requests.exceptions.Timeout:
             print("Requests Error: Request timed out. Press RETURN to retry.")
@@ -86,12 +87,16 @@ def get_active_tours(root_url):
     archive_root_url = root_url[0:8] + 'archive.' + root_url[8:]
     root_page = net_request(root_url)
     archive_root_page = net_request(archive_root_url)
+
+    timeStart = datetime.now().timestamp()
     
     activeTitle = root_page[root_page.find('<title>')+17:]
     activeTitle = activeTitle[:activeTitle.find('</title>')]
     archiveTitle = archive_root_page[archive_root_page.find('<title>')+17:]
     archiveTitle = archiveTitle[:archiveTitle.find('</title>')]
-    
+
+    sleep(max(0,0.6 - (datetime.now().timestamp() - timeStart)))
+
     if activeTitle == archiveTitle:
         return [archiveTitle]
     else:

@@ -3,7 +3,7 @@ import mvm_main as mvm
 from datetime import datetime, timezone, timedelta
 from os import path, makedirs
 from collections import Counter
-from requests import patch
+from requests import patch # pip install requests
 from json import dumps, load
 
 # == BEGIN ==
@@ -32,6 +32,7 @@ if len(activeTours) == 2:
 # GET MISSION AND MAPS
 # stored as list of dicts
 print("Getting missions for " + selected_tour + "...")
+timeStart = datetime.now().timestamp()
 map_list = mvm.fix_oxidize(mvm.net_request(selected_tour_url + "api/mapinfo",'json'))
 mission_list = mvm.net_request(selected_tour_url + "api/missioninfo",'json')
 
@@ -44,11 +45,13 @@ else:
     fileHeader = "All Operation " + selected_tour + " Speedruns, Last Updated: " + get_start_time.date().strftime('%d/%m/%Y ') + get_start_time.time().strftime('%H:%M UTC')
 writingList = [fileHeader]
 firstPlaceRunners = []
+sleep(max(0,1.2 - (datetime.now().timestamp() - timeStart)))
 
 # ITERATE THROUGH MAPS
 # todo: add delay for api rate limit, assuming 100 req/min for now
 for i in range(len(map_list)):
     print("Getting times for " + map_list[i]["niceMapName"] + "...")
+    timeStart = datetime.now().timestamp()
     workingMap_Speedrun = mvm.net_request(selected_tour_url + 'api/speedrun?map=' + map_list[i]["name"],'json')
     workingMap_Missions = sorted(set(j["mission"] for j in workingMap_Speedrun))
     if len(workingMap_Missions) == 1:
@@ -101,6 +104,8 @@ for i in range(len(map_list)):
                 currentRunLine = mvm.rem_bidir(currentRunLine)
                 writingList.append(currentRunLine[:-2])
         writingList.append("")
+    # adhere to a rough request limit of 100/min
+    sleep(max(0,0.6 - (datetime.now().timestamp() - timeStart)))
 iterLength = 20
 if len(firstPlaceRunners) < iterLength:
     iterLength = len(firstPlaceRunners)
