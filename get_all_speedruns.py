@@ -137,5 +137,10 @@ if path.isfile('./github-access.json'):
         print("Revising Github gist...")
         github_headers = {'Authorization': 'Bearer ' + github_token,'Accept':'application/vnd.github+json'}
         patch('https://api.github.com/gists/' + gist_id, data=dumps({'files':{upload_name:{"content":fileContent}}}),headers=github_headers)
+else:
+    print("Could not find 'github-access.json'. Generating example file...")
+    fileContent = "{\n	\"github_token\": \"GITHUB_TOKEN\",\n	\"gist_id\": \"GIST_ID\",\n	\"upload_name\": \"all-speedruns.txt\"\n}\n"
+    with open('./github-access.json', mode='wt', encoding='utf-8') as outputFile:
+        outputFile.write(fileContent)
 
 # == END ==
