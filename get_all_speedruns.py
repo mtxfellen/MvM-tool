@@ -45,6 +45,7 @@ else:
     fileHeader = "All Operation " + selected_tour + " Speedruns, Last Updated: " + get_start_time.date().strftime('%d/%m/%Y ') + get_start_time.time().strftime('%H:%M UTC')
 writingList = [fileHeader]
 firstPlaceRunners = []
+firstPlaceRuns = []
 sleep(max(0,1.2 - (datetime.now().timestamp() - timeStart)))
 
 # ITERATE THROUGH MAPS
@@ -80,6 +81,7 @@ for i in range(len(map_list)):
         else:
             workingMission_InfoString += str(mission_list[lastRun]["waveCount"]) + " waves)"
         writingList.append(workingMission_InfoString)
+        firstPlaceRuns.append(workingMap_SpeedrunSplit[j][0])
         # check if there are at least 3 entries and iterate through whichever is smaller
         entryDisplays = 3
         # todo: at a glance this looks like it might not do whatever i originally intended it to do
@@ -106,14 +108,41 @@ for i in range(len(map_list)):
         writingList.append("")
     # adhere to a rough request limit of 100/min
     sleep(max(0,0.6 - (datetime.now().timestamp() - timeStart)))
-iterLength = 20
+
+# append map stats
+writingList.append("== Stats ==\n\nMaps: " + str(len(map_list)) + "\nMissions: " + str(len(mission_list)) + "\n")
+
+# append recents stats
+min_recent_runs = 5 # controls the target number of recent runs to list
+target_age = 302400 # controls the target age of runs to list (will override the recent runs)
+if len(firstPlaceRuns) > min_recent_runs:   # should be compared recent runs rather than all first places(?)
+    oldest_allowed = get_start_time.timestamp() - target_age
+    writingList.append("Most recent #1 runs:")
+    firstPlaceRuns = sorted(firstPlaceRuns,key=lambda x: int(x['timeAdded']),reverse=True)
+    if firstPlaceRuns[(min_recent_runs)]['timeAdded'] > oldest_allowed:
+        for i,currentRun in enumerate(firstPlaceRuns):
+            if i == 10 or currentRun['timeAdded'] < oldest_allowed :
+                break
+        firstPlaceRuns = firstPlaceRuns[0:i]
+    else:
+        firstPlaceRuns = firstPlaceRuns[0:(min_recent_runs)]
+    for currentRun in firstPlaceRuns:
+        writingList.append('  ' + currentRun['mapNiceName'] + ' - ' + currentRun['missionNiceName'] + ' in ' + str(timedelta(seconds=int(currentRun['time'])))[2:] + ' dated ' + datetime.utcfromtimestamp(currentRun['timeAdded']).strftime('%H:%M, %d/%m/%Y'))
+        playersCurrentRunLine = ''
+        for player in currentRun['players']:
+            playersCurrentRunLine = playersCurrentRunLine + mvm.shorten_string(str(player['personaname']), 20) + ", "
+        writingList.append('\t' + playersCurrentRunLine[:-2])
+        
+# append top stats
+iterLength = 20 # controls the target number of top runners to list
 if len(firstPlaceRunners) < iterLength:
     iterLength = len(firstPlaceRunners)
 firstPlaceRunners = Counter(firstPlaceRunners).most_common(iterLength)
-writingList.append("== Stats ==\n\nMaps: " + str(len(map_list)) + "\nMissions: " + str(len(mission_list)) + "\n\nTop " + str(iterLength) + " runners (by most #1s):")
+writingList.append("\nTop " + str(iterLength) + " runners (by most #1s):")
 for i in range(iterLength):
     writingList.append("  " + str(firstPlaceRunners[i][0]) + ": " + str(firstPlaceRunners[i][1]))
-writingList.append("")
+
+writingList.append("") # end on a newline
 
 # SAVE RESULT
 if not path.exists('./output/'):
