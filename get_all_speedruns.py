@@ -131,7 +131,7 @@ if len(firstPlaceRuns) > min_recent_runs:   # should be compared recent runs rat
         playersCurrentRunLine = ''
         for player in currentRun['players']:
             playersCurrentRunLine = playersCurrentRunLine + mvm.shorten_string(str(player['personaname']), 20) + ", "
-        writingList.append('\t' + playersCurrentRunLine[:-2])
+        writingList.append('\t' + mvm.rem_bidir(playersCurrentRunLine[:-2]))
         
 # append top stats
 iterLength = 20 # controls the target number of top runners to list
