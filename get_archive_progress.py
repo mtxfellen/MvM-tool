@@ -32,7 +32,7 @@ writingList.sort(key=lambda x: int(x[1]), reverse=True)
 # strip tuple to list
 writingList = [i[0] for i in writingList]
 
-writingList.append("\nAll Speedruns:\nhttps://gist.github.com/mtxfellen/cd64e622942676a76a778c99f63b8a81")
+writingList.append("\nAll Archive Speedruns:\nhttps://gist.github.com/mtxfellen/cd64e622942676a76a778c99f63b8a81")
 
 # SAVE RESULT
 if not path.exists('./output/'):
