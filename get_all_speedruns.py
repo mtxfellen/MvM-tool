@@ -93,7 +93,7 @@ for i in range(len(map_list)):
             # check if hours in any runs, chop leading 0 otherwise
             # todo: see mvm_main.py
             for k in range(entryDisplays):
-                currentRunLine = "      " + str(timedelta(seconds=int(workingMap_SpeedrunSplit[j][k]["time"])))[2:] + " | " + datetime.fromtimestamp(workingMap_SpeedrunSplit[j][k]["timeAdded"], datetime.UTC).strftime('%d/%m/%Y') + " | "
+                currentRunLine = "      " + str(timedelta(seconds=int(workingMap_SpeedrunSplit[j][k]["time"])))[2:] + " | " + datetime.fromtimestamp(workingMap_SpeedrunSplit[j][k]["timeAdded"], tz=timezone.utc).strftime('%d/%m/%Y') + " | "
                 playersCurrentRunLine = ""
                 for l in range(len(workingMap_SpeedrunSplit[j][k]["players"])):
                     if k == 0:
@@ -127,7 +127,7 @@ if len(firstPlaceRuns) > min_recent_runs:   # should be compared recent runs rat
     else:
         firstPlaceRuns = firstPlaceRuns[0:(min_recent_runs)]
     for currentRun in firstPlaceRuns:
-        writingList.append('  ' + currentRun['mapNiceName'] + ' - ' + currentRun['missionNiceName'] + ' in ' + str(timedelta(seconds=int(currentRun['time'])))[2:] + ' dated ' + datetime.fromtimestamp(currentRun['timeAdded'], datetime.UTC).strftime('%H:%M, %d/%m/%Y'))
+        writingList.append('  ' + currentRun['mapNiceName'] + ' - ' + currentRun['missionNiceName'] + ' in ' + str(timedelta(seconds=int(currentRun['time'])))[2:] + ' dated ' + datetime.fromtimestamp(currentRun['timeAdded'], tz=timezone.utc).strftime('%H:%M, %d/%m/%Y'))
         playersCurrentRunLine = ''
         for player in currentRun['players']:
             playersCurrentRunLine = playersCurrentRunLine + mvm.shorten_string(str(player['personaname']), 20) + ", "
