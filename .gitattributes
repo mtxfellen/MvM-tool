@@ -1,6 +1,9 @@
 # Source files
 *.py text eol=lf diff=python
 
+# Configuration files
+*.json text eol=lf
+
 # Documentation files
 *.md text eol=lf diff=markdown
 
