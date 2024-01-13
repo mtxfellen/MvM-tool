@@ -148,7 +148,7 @@ writingList.append("") # end on a newline
 if not path.exists('./output/'):
     makedirs('./output/')
 fileContent = '\n'.join(writingList)
-with open('./output/' + fileSaveName, mode='wt', encoding='utf-8') as outputFile:
+with open('./output/' + fileSaveName, mode='wt', encoding='utf-8', newline='\n') as outputFile:
     outputFile.write(fileContent)
 print("All speedruns saved to \"" + path.abspath('./output/' + fileSaveName) + "\".")
 
@@ -169,7 +169,7 @@ if path.isfile('./github-access.json'):
 else:
     print("Could not find 'github-access.json'. Generating example file...")
     fileContent = "{\n	\"github_token\": \"GITHUB_TOKEN\",\n	\"gist_id\": \"GIST_ID\",\n	\"upload_name\": \"all-speedruns.txt\"\n}\n"
-    with open('./github-access.json', mode='wt', encoding='utf-8') as outputFile:
+    with open('./github-access.json', mode='wt', encoding='utf-8', newline='\n') as outputFile:
         outputFile.write(fileContent)
 
 # == END ==
