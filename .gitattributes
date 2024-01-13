@@ -1,0 +1,9 @@
+# Source files
+*.py text eol=lf diff=python
+
+# Documentation files
+*.md text eol=lf diff=markdown
+
+# Linguist configuration
+*.py linguist-detectable=true
+*.py linguist-language=Python
