@@ -113,7 +113,7 @@ for i in range(len(map_list)):
 writingList.append("== Stats ==\n\nMaps: " + str(len(map_list)) + "\nMissions: " + str(len(mission_list)) + "\n")
 
 # append recents stats
-min_recent_runs = 5 # controls the target number of recent runs to list
+min_recent_runs = 10 # controls the target number of recent runs to list
 target_age = 302400 # controls the target age of runs to list (will override the recent runs)
 if len(firstPlaceRuns) > min_recent_runs:   # should be compared recent runs rather than all first places(?)
     oldest_allowed = get_start_time.timestamp() - target_age
