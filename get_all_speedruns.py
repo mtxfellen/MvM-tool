@@ -75,7 +75,7 @@ for i in range(len(map_list)):
             if workingMap_Missions[j] == mission_list[k]["mission"]:
                 lastRun = k
                 break
-        workingMission_InfoString = "\t" + mission_list[lastRun]["missionNiceName"] + " - " + mvm.num_2_difficulty(mission_list[lastRun]["difficulty"]) + " (Operation " + mission_list[lastRun]["campaignName"] + ", "
+        workingMission_InfoString = "    " + mission_list[lastRun]["missionNiceName"] + " - " + mvm.num_2_difficulty(mission_list[lastRun]["difficulty"]) + " (Operation " + mission_list[lastRun]["campaignName"] + ", "
         if mission_list[lastRun]["waveCount"] == 1:
             workingMission_InfoString += "1 wave)"
         else:
@@ -88,12 +88,12 @@ for i in range(len(map_list)):
         if len(workingMap_SpeedrunSplit[j]) < entryDisplays:
             entryDisplays = len(workingMap_SpeedrunSplit[j])
         elif entryDisplays == 0:
-            writingList.append("\t  No entries.")
+            writingList.append("      No entries.")
         else:
             # check if hours in any runs, chop leading 0 otherwise
             # todo: see mvm_main.py
             for k in range(entryDisplays):
-                currentRunLine = "\t  " + str(timedelta(seconds=int(workingMap_SpeedrunSplit[j][k]["time"])))[2:] + " | " + datetime.utcfromtimestamp(workingMap_SpeedrunSplit[j][k]["timeAdded"]).strftime('%d/%m/%Y') + " | "
+                currentRunLine = "      " + str(timedelta(seconds=int(workingMap_SpeedrunSplit[j][k]["time"])))[2:] + " | " + datetime.utcfromtimestamp(workingMap_SpeedrunSplit[j][k]["timeAdded"]).strftime('%d/%m/%Y') + " | "
                 playersCurrentRunLine = ""
                 for l in range(len(workingMap_SpeedrunSplit[j][k]["players"])):
                     if k == 0:
@@ -131,7 +131,7 @@ if len(firstPlaceRuns) > min_recent_runs:   # should be compared recent runs rat
         playersCurrentRunLine = ''
         for player in currentRun['players']:
             playersCurrentRunLine = playersCurrentRunLine + mvm.shorten_string(str(player['personaname']), 20) + ", "
-        writingList.append('\t' + mvm.rem_bidir(playersCurrentRunLine[:-2]))
+        writingList.append('    ' + mvm.rem_bidir(playersCurrentRunLine[:-2]))
         
 # append top stats
 iterLength = 20 # controls the target number of top runners to list
