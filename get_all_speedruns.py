@@ -7,6 +7,9 @@ from requests import patch # pip install requests
 from json import dumps, load
 
 # == BEGIN ==
+
+print("\nPotato.tf Speedruns Script by fellen.\n https://github.com/mtxfellen/MvM-tool\n")
+
 # LOOK FOR ACTIVE CAMPAIGN
 selected_tour_url = 'https://potato.tf/'
 print("Looking for active campaign from " + selected_tour_url + "...")
