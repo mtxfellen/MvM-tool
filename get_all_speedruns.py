@@ -99,7 +99,7 @@ for i in range(len(map_list)):
                     if k == 0:
                         firstPlaceRunners.append(str(workingMap_SpeedrunSplit[j][k]["players"][l]["personaname"]))
                     playersCurrentRunLine = playersCurrentRunLine + mvm.shorten_string(str(workingMap_SpeedrunSplit[j][k]["players"][l]["personaname"]), 20) + ", "
-                if l > 5:
+                if l > 5 and mission_list[lastRun]["mission"] != 'adv_dover_2':
                     currentRunLine = currentRunLine + "(BUGGED) " + playersCurrentRunLine
                 else:
                     currentRunLine = currentRunLine + playersCurrentRunLine
